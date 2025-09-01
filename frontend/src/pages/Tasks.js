@@ -1,7 +1,6 @@
- 
 // src/pages/Tasks.js
-import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Filter, Search } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Plus, Edit2, Trash2, Search, CheckSquare, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../config/api';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -22,9 +21,9 @@ const Tasks = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [filters]);
+  }, [fetchTasks]);
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       setLoading(true);
       const queryParams = new URLSearchParams();
@@ -49,7 +48,7 @@ const Tasks = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
   const handleCreateTask = () => {
     setEditingTask(null);
