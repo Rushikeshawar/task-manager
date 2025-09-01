@@ -361,7 +361,7 @@ PUT /api/users/:userId/role
 
 ## 🤝 Submission Details
 
-**Project Repository**: [[Your GitHub Repository URL](https://github.com/Rushikeshawar/task-manager/tree/main)]
+**Project Repository**: [https://github.com/Rushikeshawar/task-manager/tree/main]
 
 **Developed by**: Rushikesh Aware
 **Submission Date**: September 2, 2024
