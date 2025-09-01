@@ -1,5 +1,5 @@
 // src/pages/Tasks.js
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, CheckSquare, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../config/api';
@@ -19,11 +19,8 @@ const Tasks = () => {
     search: ''
   });
 
-  useEffect(() => {
-    fetchTasks();
-  }, [fetchTasks]);
-
-  const fetchTasks = useCallback(async () => {
+  // Move fetchTasks before useEffect
+  const fetchTasks = async () => {
     try {
       setLoading(true);
       const queryParams = new URLSearchParams();
@@ -48,7 +45,11 @@ const Tasks = () => {
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, [filters.status, filters.priority, filters.search]);
 
   const handleCreateTask = () => {
     setEditingTask(null);
@@ -202,7 +203,7 @@ const Tasks = () => {
           <LoadingSpinner />
         ) : tasks.length === 0 ? (
           <div className="text-center py-12">
-            <CheckSquare className="mx-auto h-12 w-12 text-gray-400" />
+            <AlertCircle className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">No tasks found</h3>
             <p className="mt-1 text-sm text-gray-500">
               {filters.status || filters.priority || filters.search 
