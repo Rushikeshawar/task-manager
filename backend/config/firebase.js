@@ -1,9 +1,6 @@
 // config/firebase.js
 const admin = require('firebase-admin');
 
-// For development/testing - use a simple admin initialization
-// In production, you should use proper service account credentials
-
 let app;
 
 try {
@@ -21,23 +18,22 @@ try {
 
     app = admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      projectId: process.env.FIREBASE_PROJECT_ID,
+      projectId: process.env.FIREBASE_PROJECT_ID, // Add this explicitly
     });
   } else {
     // For development - initialize with project ID only
-    // This works for auth verification but requires proper setup for production
     app = admin.initializeApp({
-      projectId: process.env.FIREBASE_PROJECT_ID,
+      projectId: process.env.FIREBASE_PROJECT_ID, // Ensure this is set
     });
   }
 } catch (error) {
   console.error('Firebase initialization error:', error.message);
   console.log('Using default Firebase app...');
   
-  // Fallback initialization
+  // Fallback initialization with explicit project ID
   if (!admin.apps.length) {
     app = admin.initializeApp({
-      projectId: process.env.FIREBASE_PROJECT_ID,
+      projectId: process.env.FIREBASE_PROJECT_ID, // Make sure this is always set
     });
   } else {
     app = admin.apps[0];
